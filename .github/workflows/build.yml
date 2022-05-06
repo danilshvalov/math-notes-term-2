@@ -50,7 +50,7 @@ jobs:
             tag_name: synopsis-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha8 }}
             release_name: Synopsis (version ${{ steps.vars.outputs.date }})
             draft: false
-            prerelease: false
+            prerelease: true
 
         - name: Upload pdf asset
           uses: actions/upload-release-asset@v1
