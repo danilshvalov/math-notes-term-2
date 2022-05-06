@@ -13,18 +13,18 @@ jobs:
         root_file: main.tex
         # Аргументы, к которыми запускать компилятор (latexmk)
         # -jobname=<name> дает возможность поменять имя выходного файла
-        args: -jobname=my_doc -pdflatex=lualatex -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+        args: -jobname=synopsis -pdflatex=lualatex -pdf -file-line-error -halt-on-error -interaction=nonstopmode
         compiler: latexmk
 
     # Загружаем собранные pdf-файлы
 
-    # - name: Upload pdf document
-    #   uses: actions/upload-artifact@v2
-    #   with:
+    # Загружаем собранные pdf-файлы
+    - name: Upload pdf document
+      uses: actions/upload-artifact@v2
+      with:
+        # Это значение используется как ключ в хранилище
+        name: synopsis
+        # Путь до собранного pdf. Может содержать «*», «**»
 
-    #     # Это значение используется как ключ в хранилище
-
-    #     name: Конспект по математике
-    #     # Путь до собранного pdf. Может содержать «*», «**»
-    #     # Здесь это <working_directory>/<jobname>.pdf
-    #     path: 
+        # Здесь это <working_directory>/<jobname>.pdf
+        path: synopsis.pdf
