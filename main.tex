@@ -73,20 +73,20 @@
 \newcommand{\newpar}{$ $\par\nobreak\ignorespaces}
 \newcommand{\makeline}{\noindent\makebox[\linewidth]{\rule{0.8\paperwidth}{0.4pt}}}
 
-\newenvironment{breakenv}[3][]{\noindent\textsc{#1}#2#3.\newpar}{\bigskip}
+\newenvironment{breakenv}[3][]{\noindent\textbf{#1}#2#3.\newpar}{\bigskip}
 
-\newtheoremstyle{numbered}{}{}{}{}{}{}{.5em}{\textsc{ #1\;#2.}\;#3}
+\newtheoremstyle{numbered}{}{}{}{}{}{}{.5em}{\textbf{ #1\;#2.}\;#3}
 
-\newtheoremstyle{unnumbered}{}{}{}{}{}{}{.5em}{\textsc{#1\if\relax\detokenize{#3}\relax\else\;#3\newpar\fi.}\par}
+\newtheoremstyle{unnumbered}{}{}{}{}{}{}{.5em}{\textbf{#1\if\relax\detokenize{#3}\relax\else\;#3\newpar\fi.}\par}
 
-\newenvironment{definition}[1][]{\noindent\textsc{Определение.\if\relax\detokenize{#1}\relax\else\;#1.\fi}\newpar}{}
+\newenvironment{definition}[1][]{\noindent\textbf{Определение.\if\relax\detokenize{#1}\relax\else\;#1.\fi}\newpar}{}
 
 \theoremstyle{numbered}
 \newtheorem{property}{Свойство}[section]
 \renewcommand{\theproperty}{\arabic{property}}
 
 \newtheoremstyle{named}{}{}{}{}{}{}{.5em}{
-    \textsc{#1\if\relax\detokenize{#2}\relax.\else\;#2.\fi}
+    \textbf{#1\if\relax\detokenize{#2}\relax.\else\;#2.\fi}
     \if\relax\detokenize{#3}\relax
     \else
         \;#3.
@@ -118,12 +118,12 @@
 %     % \smallskip\newpar \hfill\textit{Что и требовалось доказать.}
 %     \qed
 % }
-\renewenvironment{proof}{{\noindent\textsc{Доказательство.}}}{\qed}
+\renewenvironment{proof}{{\noindent\textbf{Доказательство.}}}{\qed}
 
 \renewcommand\qedsymbol{\blacksquare}
 
 \pagestyle{plain}
-\setmainfont{PT Serif}[SmallCapsFont=Kelvingrove]
+\setmainfont{PT Serif}
 
 \titleformat{\section}
 {\Large}{\textbf{\thesection.}}{0.5em}{\textbf{#1}}
