@@ -35,7 +35,7 @@ jobs:
         - name: Variables
           id: vars
           run: |
-            echo "::set-output name=date::$(date +'%Y-%m-%d')"
+            echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%C')"
             echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
         - name: Download artifacts
           uses: actions/download-artifact@v2
@@ -50,7 +50,7 @@ jobs:
             tag_name: synopsis-${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha8 }}
             release_name: Synopsis (version ${{ steps.vars.outputs.date }})
             draft: false
-            prerelease: true
+            prerelease: false
 
         - name: Upload pdf asset
           uses: actions/upload-release-asset@v1
