@@ -20,6 +20,7 @@
 \usepackage{mdframed}
 \usepackage{textcomp}
 \usepackage{multicol}
+\usepackage{mathtools}
 \usepackage[%
     left=0.8in,%
     right=0.8in,%
@@ -2061,11 +2062,11 @@
 
 Необходимое условие функции Лагранжа
 \begin{equation}
-    \begin{cases}
+    \begin{dcases*}
         \frac{\partial u}{\partial x} = \frac{\partial z}{\partial x} + \lambda \frac{\partial \varphi}{\partial x} = 0 \\
         \frac{\partial u}{\partial y} = \frac{\partial z}{\partial y} + \lambda \frac{\partial \varphi}{\partial y} = 0 \\
         \varphi(x, y) = 0
-    \end{cases}
+    \end{dcases*}
 \end{equation}
 Из этой системы находим \(x, y\) и \(\lambda\).
 
@@ -2159,5 +2160,97 @@
     \item {Вычислить внутренний интеграл.}
     \item {Вычислить внешний интеграл и получить ответ.}
 \end{enumerate}
+
+\chapter{Тройной интеграл}
+\label{cha:Тройной интеграл}
+
+\(\lets\) задана область \(V\) в пространстве, ограниченной поверхностью \(G\). \(\lets\) в области \(V\) и на ее границе \(G\) определена \(u = f(x, y, z)\) (если \(u \geq 0\), то \(u\) можно считать плотностью распределения некоторого вещества в \(V\)). Разобъем \(V\) произвольным образом на ячейки \(\Delta v_i\) \((V_i = \Delta v_i)\), \(i = 1, 2, \ldots, n\). Возьмем точку \(P_i \in \Delta v_i\). \(f(P_i)\). \(\sum_{i=1}^n f(P_i)\Delta v_i\). Будем увеличивать число ячеек. Наиб. диаметр \(\Delta v_i \to 0\). Так как \(f(x, y, z)\) непрерывна в области \(V\):
+\begin{equation}
+    \lim_{diam \Delta v_i \to 0}{\sum_{i = 1}^n f(P_i)\Delta v_i} = \iiint\limits_V f(P)dv = \iiint\limits_V f(x, y, z)dxdydz
+\end{equation}
+
+\section{Правильная область}
+\label{sec:Правильная область}
+
+\begin{enumerate}
+    \item Прямая, параллельная \(Oz\), пересекает \(G\) только в 2-х точках.
+    \item \(\text{пр}_{xOy} V = D\) — правильная.
+    \item Всякая часть области \(V\), отсеченная плоскостью, параллельной любой из координатной плоскости, также обладает свойствами 1) и 2).
+\end{enumerate}
+
+\section{Трехкратный интеграл по области}
+\label{sec:Трехкратный интеграл по области}
+
+\begin{equation}
+    I_V = \int\limits_{a}^{b} \Big( \int\limits_{\varphi_1(x)}^{\varphi_2(x)} \Big[ \int\limits_{\xi_1(x, y)}^{\xi_2(x, y)} f(x, y, z) dz \Big] dy \Big) dx
+\end{equation}
+
+\section{Свойства трехкратного интеграла}
+\label{sec:Свойства трехкратного интеграла}
+
+% TODO: добавить свойства
+
+\section{Замена переменных}
+\label{sec:Замена переменных}
+
+% TODO: добавить
+
+\section{Двойной интеграл в полярных координатах}
+\label{sec:Двойной интеграл в полярных координатах}
+
+Преобразование двойного интеграла от прямоугольных координат \((x, y)\) к полярным координатам \((\rho, \theta)\), связанным с прямоугольными координатами соотношениями:
+\begin{equation}
+    x = \rho \cos{\theta}, \qquad y = \rho \sin{\theta}
+\end{equation}
+
+\begin{equation}
+    \iint\limits_{D} f(x, y)dxdy = \iint\limits_{D} f(\rho \cos{\theta}, \rho \sin{\theta}) \rho d\rho d\theta
+\end{equation}
+
+Если область интегрирования \(D\) ограничена двумя лучами \(\theta = \alpha\) и \(\theta = \beta\), (\(\alpha < \beta\)), выходящими из полюса, и двумя кривыми \(\rho = \rho_1(\theta)\) и \(\rho = \rho_2(\theta)\), где \(\rho_1(\theta)\) и \(\rho_2(\theta)\) являются однозначными функциями при \(\theta \in [\alpha, \beta]\) и \(\rho_1(\theta) \leq \rho_2(\theta)\). Тогда двойной интеграл вычисляется по формуле:
+\begin{equation}
+    \iint\limits_{D} F(\rho, \theta) \rho d\rho d\theta = \int\limits_{\alpha}^{\beta} d\theta \int\limits_{\rho_1(\theta)}^{\rho_2(\theta)} F(\rho, \theta) \rho d\rho.
+\end{equation}
+где \(F(\rho, \theta) = f(\rho \cos{\theta}, \rho \sin{\theta})\), а внутренний интеграл считается для \(\theta = const\).
+
+\section{Двойной интеграл в криволинейных координатах}
+\label{sec:Двойной интеграл в криволинейных координатах}
+
+Пусть двойной интеграл преобразуется от прямоугольных координат \((x, y)\) к криволинейным координатам \((u, v)\), связанными с прямоугольными координатами соотношениями:
+\begin{equation}
+    x = x(u, v), \qquad y = y(u, v),
+\end{equation}
+где \(x(u, v)\) и \(y(u, v)\) непрерывные вместе со своими частными производными первого порядка. Эти функции устанавливают взаимно однозначное и в обе стороны непрерывное соответствие между точками области \(D\) плоскости \(xOy\) и точками \(D'\) плоскости \(uO'v\) и определитель преобразования, называемый Якобианом, в области \(D'\) не обращается в \(0\):
+\begin{equation}
+    J =
+    \begin{vmatrix}
+        \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v}
+        \vspace{4pt}                                                  \\
+        \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+    \end{vmatrix}
+\end{equation}
+
+Тогда используется формула:
+\begin{equation}
+    \iint\limits_{D} f(x, y)dxdy = \iint\limits_{D'} f\big[ x(u, v), y(u, v) \big] |J| du dv.
+\end{equation}
+
+\section{Вычисление площади плоской фигуры}
+\label{sec:Вычисление площади плоской фигуры}
+
+Формула нахождения площади фигуры, ограниченной областью \(D\):
+\begin{equation}
+    S = \iint\limits_{D} dxdy.
+\end{equation}
+
+Если для \(D\) справедливо \(x \in [a, b]\), \(y \in \[\varphi_1(x), \varphi_2(x)\]\) , тогда
+\begin{equation}
+    S = \int\limits_{a}^{b} dx \int\limits_{\varphi_1(x)}^{\varphi_2(x)} dy.
+\end{equation}
+
+Если \(D\) определена в полярных координатах \(\theta \in [\alpha, \beta]\), \(\rho \in [\varphi(\theta), \f(\theta)]\), то площадь \(D\) равна
+\begin{equation}
+    S = \iint\limits_{D} \rho d\rho d\theta = \int\limits_{\alpha}^{\beta} d\theta \int\limits_{\varphi_1(x)}^{\varphi_2(x)} \rho d\rho
+\end{equation}
 
 \end{document}
