@@ -28,7 +28,9 @@
     bottom=1in,%
 ]{geometry}%
 
+
 \DeclareMathOperator{\sign}{sign}
+% \DeclareMathOperator{\grad}{grad}
 
 \def\lets{%
     \mathord{\setbox0=\hbox{$\exists$}%
@@ -76,9 +78,9 @@
 
 \newenvironment{breakenv}[3][]{\noindent\textbf{#1}#2#3.\newpar}{\bigskip}
 
-\newtheoremstyle{numbered}{}{}{}{}{}{}{.5em}{\textbf{ #1\;#2.}\;#3}
+\newtheoremstyle{numbered}{}{}{}{}{}{}{.5em}{\textbf{ #1\;#2.}\;\if\relax\detokenize{#3}\relax\else#3.\fi}
 
-\newtheoremstyle{unnumbered}{}{}{}{}{}{}{.5em}{\textbf{#1\if\relax\detokenize{#3}\relax\else\;#3\newpar\fi.}\par}
+\newtheoremstyle{unnumbered}{}{}{}{}{}{}{.5em}{\textbf{#1\if\relax\detokenize{#3}\relax\else#3\fi.}\par}
 
 \newenvironment{definition}[1][]{\noindent\textbf{Определение.\if\relax\detokenize{#1}\relax\else\;#1.\fi}\newpar}{}
 
@@ -86,7 +88,7 @@
 \newtheorem{property}{Свойство}[section]
 \renewcommand{\theproperty}{\arabic{property}}
 
-\newtheoremstyle{named}{}{}{}{}{}{}{.5em}{
+\newtheoremstyle{named}{}{}{}{}{}{}{0.25em}{
     \textbf{#1\if\relax\detokenize{#2}\relax.\else\;#2.\fi}
     \if\relax\detokenize{#3}\relax
     \else
@@ -350,21 +352,17 @@
 \subsection{Замена переменной в неопределенном интеграле}%
 \label{sub:Замена переменной в неопределенном интеграле}
 
-Замена переменной производится с помощью подстановок 2-х типов:
-\begin{enumerate}
-    \item {
-          Если \(x = \varphi(t)\), где \(\varphi(t) \in C^1\), то формула замены переменной:
-          \begin{gather*}
-              \int f(x)dx = \int f [\varphi(t)] \cdot \varphi'(t)dt
-          \end{gather*}
-          }
-    \item {
-          Если \(u = \psi(x)\), то формула замены переменной:
-          \begin{gather*}
-              \int f[\psi(x)] \cdot \psi'(x) dx = \int f(u)du
-          \end{gather*}
-          }
-\end{enumerate}
+\begin{equation}
+    \lets x = \varphi(t), \varphi(t) \in C^1
+    \implies
+    \int f(x)dx = \int f [\varphi(t)] \cdot \varphi'(t)dt.
+\end{equation}
+
+\begin{equation}
+    \lets u = \psi(x)
+    \implies
+    \int f[\psi(x)] \cdot \psi'(x) dx = \int f(u)du.
+\end{equation}
 
 \subsection{Интегрирование по частям}%
 \label{sub:Интегрирование по частям}
@@ -493,20 +491,114 @@
     + \frac{M_1x + N_1}{x^2 + px + q} + \frac{M_2x + N_2}{(x^2 + px + q)^2} + \ldots + \frac{M_\beta x + N_\beta}{(x^2 + px + q)^\beta} + \ldots
 \end{gather*}
 
+\subsection{Интегрирование дробей разных типов}%
+\label{sub:Интегрирование дробей разных типов}
 
+\subsubsection{1 тип}%
+\label{ssub:1 тип}
+\begin{equation}
+    \int \frac{dx}{x - a} = \int \frac{d(x -a)}{x - a} = \ln |x - a| + C.
+\end{equation}
 
-Типы дробей
-1-4 тип
-\begin{gather*}
-    \int \frac{A}{x - a}dx = A\ln{x - a} + C \\
-    \int \frac{A}{(x - a)^n}dx = -\frac{A}{(n - 1)(x - a)^{n - 1}} + C
-\end{gather*}
-где \(A, B, C, a, p, q = const\).
+\subsubsection{2 тип}%
+\label{ssub:2 тип}
+\begin{equation}
+    \int \frac{dx}{(x - a)^n} = \int (x - a)^{-n} d(x -a) = \frac{(x - a)^{-n + 1}}{-n + a} + C
+\end{equation}
 
-\begin{gather*}
-    \int \frac{Ax + B}{x^2 + px + q}dx = \frac{A}{2} \ln{(x^2 + px + q)} + \frac{2 \cdot B - A \cdot p}{\sqrt{-D}} \arctg{\frac{2x + p}{\sqrt{-D}}} + C \\
-    D = p^2 - 4q < 0
-\end{gather*}
+\subsubsection{3 тип}%
+\label{ssub:3 тип}
+
+\begin{equation}
+    I = \int \frac{Ax + B}{x^2 + bx + c}dx.
+\end{equation}
+
+\begin{equation}
+    \lets u = x^2 + bx + c \implies u' = 2x + b.
+\end{equation}
+
+\begin{equation}
+    Ax + B = \frac{A}{2} (2x + b) + B - \frac{bA}{2} = \frac{A}{2}u' + B - \frac{bA}{2}.
+\end{equation}
+
+\begin{equation}
+    \begin{gathered}
+        I = \int \frac{Ax + B}{x^2 + bx + c} =
+        \frac{A}{2} \int \frac{u'}{u} dx + \Big( B - \frac{bA}{2} \Big) \int \frac{dx}{x^2 + bx + c}.
+    \end{gathered}
+\end{equation}
+
+Левый интеграл в сумме равен:
+\begin{equation}
+    \frac{A}{2} \int \frac{u'}{u} dx = \frac{A}{2} \ln |x^2 + bx + c|.
+\end{equation}
+
+Рассмотрим правый интеграл. Его знаменатель равен
+\begin{equation}
+    x^2 + bx + c =
+    x^2 + 2x \frac{b}{2} + \Big( \frac{b}{2} \Big)^2 + c - \Big( \frac{b}{2} \Big)^2 =
+    \Big( x + \frac{b}{2} \Big)^2 +a^2,
+\end{equation}
+
+где
+\begin{equation}
+    a = \sqrt{c - \Big( \frac{b}{2} \Big)^2}.
+\end{equation}
+
+Мы считаем, что уравнение \(x^2 + bx + c = 0\) не имеет корней, поэтому \(c > \Big( \dfrac{b}{2} \Big)^2\).
+
+\begin{equation}
+    \lets at = x + \frac{b}{2} \implies adt = dx,
+    \quad
+    t = \frac{2x + b}{2a}.
+\end{equation}
+
+\begin{equation}
+    x^2 + bx + c = \Big( x + \frac{b}{2} \Big)^2 + a^2 = a^2 (t^2 + 1).
+\end{equation}
+
+\begin{equation}
+    \int \frac{dx}{x^2 + bx + c} =
+    \frac{1}{a} \int \frac{dt}{t^2 + 1} =
+    \frac{1}{a} \arctg t =
+    \frac{1}{a} \arctg \frac{2x + b}{2a}.
+\end{equation}
+
+Искомый интеграл равен
+\begin{equation}
+    I = \frac{A}{2} \ln |x^2 + bx + c| + \Big( B - \frac{bA}{2} \Big) \frac{1}{a} \arctg \frac{2x + b}{2a} + C,
+\end{equation}
+
+где
+\begin{equation}
+    a = \sqrt{c - \Big( \frac{b}{2} \Big)^2}.
+\end{equation}
+
+\subsubsection{4 тип}%
+\label{ssub:4 тип}
+
+\begin{equation}
+    I = \int \frac{Ax+ B}{(x^2 + bx + c)^n}dx.
+\end{equation}
+
+Выделим в числителе производную знаменателя:
+\begin{equation}
+    I = - \frac{A}{2(n - 1)} \frac{1}{(x^2 + bx + c)^{n - 1}} + \Big( B - \frac{bA}{2} \Big) I_n,
+\end{equation}
+
+где
+\begin{equation}
+    I_n = \int \frac{dx}{(x^2 + bx + c)^n}
+\end{equation}
+
+\begin{equation}
+    I_1 = \int \frac{dx}{x^2 + bx + c} = \frac{1}{a} \arctg \frac{2x + b}{2a},
+\end{equation}
+
+Итоговая формула:
+\begin{equation}
+    (n - 1)(4c - b^2) I_n = 2(2n - 3)I_{n - 1} + \frac{2x + b}{(x^2 + bx + c)^{n - 1}}
+\end{equation}
 
 \begin{theorem}
     Любую правильную рациональную дробь \(P(x) / Q(x)\), знаменатель которой раскладывается на множители
@@ -523,15 +615,6 @@
     \end{gather*}
 \end{theorem}
 
-Дробь 4 типа
-
-\begin{gather*}
-    I_n = \int \frac{dx}{(x^2 + a^2)^n} = \frac{1}{a^2} \int \frac{(a^2 + x^2) - x^2}{(x^2 + a^2)^n}dx = \\
-    = \frac{1}{a^2} \int \frac{dx}{(x^2 + a^2)^{n - 1}} - \frac{1}{a^2} \int \frac{x^2 dx}{(x^2 + a^2)^n} = \\
-    = \frac{1}{a^2} I_{n - 1} + \frac{1}{a^n} \int x \cdot \frac{x}{(x^2 + a^2)^n} dx \\
-    \int x \cdot \frac{x}{(x^2 + a^2)^n} dx = u \cdot dv \\
-    v = \frac{x}{2(n - 1)(x^2 + a^2)^{n - 1}} - \frac{1}{2(n - 1)} \int \frac{dx}{(x^2 +a^2)^{n - 1}}
-\end{gather*}
 
 \begin{theorem}
     Рассмотрим линейный множитель \((x - a)^k\), входящий в разложение \(Q(x)\) при \(k \geq 1\). Тогда
@@ -656,15 +739,13 @@
               \int \frac{Ax + B}{\sqrt{ax^2 + bx + c}}dx
           \]
           решаются следующим образом. Необходимо выделить в числителе производную квадратного трехчлена и представить в виде суммы:
-          \[
-              \int \frac{Ax + B}{\sqrt{ax^2 + bx + c}}dx = \\
-          \]
-          \[
-              = \int \frac{\dfrac{A}{2a}(2ax + b) + B - \dfrac{Ab}{2a}}{\sqrt{ax^2 + bx + c}} dx = \\
-          \]
-          \[
-              = \frac{A}{2a} \int \frac{(2ax + b) dx}{\sqrt{ax^2 + bx + c}} + (B - \frac{Ab}{2a}) \int \frac{dx}{\sqrt{ax^2 + bx + c}}
-          \]
+          \begin{equation}
+              \begin{gathered}
+                  \int \frac{Ax + B}{\sqrt{ax^2 + bx + c}}dx =
+                  \int \frac{\dfrac{A}{2a}(2ax + b) + B - \dfrac{Ab}{2a}}{\sqrt{ax^2 + bx + c}} dx = \\ \\ =
+                  \frac{A}{2a} \int \frac{(2ax + b) dx}{\sqrt{ax^2 + bx + c}} + (B - \frac{Ab}{2a}) \int \frac{dx}{\sqrt{ax^2 + bx + c}}
+              \end{gathered}
+          \end{equation}
           }
     \item {
           Интегралы вида
@@ -751,23 +832,20 @@
     \int \sin^m{x} \cdot \cos^n{x}
 \end{equation}
 \begin{itemize}
-    \item {
-          Хотя бы один из показателей степени \(m\) или \(n\) является нечетным положительным числом:
+    \item Хотя бы один из показателей степени \(m\) или \(n\) является нечетным положительным числом:
           \begin{itemize}
               \item {Если \(n\) — нечетное положительное число, то \(\sin{x} = t\)}
               \item {Если \(m\) — нечетное положительное число, то \(\cos{x} = t\)}
           \end{itemize}
-          }
-    \item {
-          Оба показателя степени \(m\) и \(n\) являются четными положительными числами:
-          \begin{gather*}
-              \sin{x}\cos{x} = \frac{1}{2} \sin{2x}
+    \item Оба показателя степени \(m\) и \(n\) являются четными положительными числами:
+          \begin{equation}
+              \sin{x}\cos{x} = \frac{1}{2} \sin{2x},
               \qquad
-              \sin^2{x} = \frac{1}{2}(1 - \cos{2x})
+              \sin^2{x} = \frac{1}{2}(1 - \cos{2x}),
               \qquad
-              \cos^2{x} = \frac{1}{2}(1 + \cos{2x})
-          \end{gather*}
-          }
+              \cos^2{x} = \frac{1}{2}(1 + \cos{2x}),
+          \end{equation}
+    \item Если \(m + n\) — четное отрицательное число, то \(\tg x = t\).
 \end{itemize}
 
 \subsection{Понижение степени тангенса и котангенса}%
@@ -814,12 +892,19 @@
 \begin{equation}
     \int R(x, \sqrt{a^2 - x^2})dx, \qquad \int R(x, \sqrt{a^2 + x^2})dx, \qquad \int R(x, \sqrt{x^2 - a^2})dx
 \end{equation}
-приводятся к интегралам от рациональной относительно \(\sin{t}\) и \(\cos{t}\) функции с помощью тригонометрической подстановки: для первого интеграла \(x = a\sin{t}\) или \(x = a\cos{t}\), для второго \(x = a\tg{t}\) или \(x = a\ctg(t)\), для третьего \(x = a\sec{t}\) или \(x = a\cosec{t}\).
+приводятся к интегралам от рациональной относительно \(\sin{t}\) и \(\cos{t}\) функции с помощью тригонометрической подстановки соответственно:
+\begin{enumerate}
+    \item \(x = a\sin{t}\) или \(x = a\cos{t}\);
+    \item \(x = a\tg{t}\) или \(x = a\ctg t\);
+    \item \(x = a\sec{t}\) или \(x = a\cosec{t}\).
+\end{enumerate}
 
 
+\chapter{Определенный интеграл}%
+\label{cha:Определенный интеграл}
 
-\section{Определенный интеграл}%
-\label{sec:Определенный интеграл}
+\section{Определение}%
+\label{sec:Определение}
 
 \(\lets f: [a, b] \to R\). Разделим \([a, b]\) на \(n\) частей точками \(a = x_0 < x_1 < \ldots < x_{n - 1} < x_n = b\), выберем на каждом элементарном отрезке \([x_{k - 1}, x_k]\) произвольную точку \(\xi_k\) и найдем длину каждого такого отрезка: \(\Delta x_k = x_k - x_{k - 1}\). Тогда \textbf{интегральной суммой} для функции \(f(x)\) на \([a, b]\) называется сумма вида \(\sigma = \displaystyle \sum_{k=1}^n f(\xi_k) \Delta x_k\), причем эта сумма имеет конечный придел \(I\), если:
 \[
@@ -834,75 +919,102 @@
 Числа \(a\) и \(b\) называются \textbf{нижним} и \textbf{верхним пределами интегрирования} соответственно.
 
 
-\begin{theorem}
-    Если \(y = f(x)\) непрерывна на \([a, b]\), то \(\exists \displaystyle \int_a^b f(x)dx\).
-\end{theorem}
+\section{Свойства}%
+\label{sec:Свойства}
 
-\begin{proof}
-    % TODO: добавить доказательство для теоремы выше
-\end{proof}
-
-\begin{note}
-    Интеграл не зависит от переменной интегрирования:
-    \[
-        \int_a^b f(x)dx = \int_a^b f(z)dz = \int_a^b f(t)dt
-    \]
-\end{note}
-
-Основные свойства:
-% TODO: добавить доказательства свойств
 
 \begin{property}
-    \[
-        \int_a^b Af(x)dx = A \cdot \int_a^b f(x) dx
-    \]
+    \begin{equation}
+        \int\limits_a^b \lambda f(x)dx = \lambda \cdot \int\limits_a^b f(x) dx,
+        \quad
+        \lambda = const.
+    \end{equation}
+\end{property}
+
+\begin{proof}
+    \begin{equation}
+        \int\limits_a^b \lambda f(x)dx =
+        \lim_{\Delta x \to 0}{\sum_{i=1}^n \lambda f(\varepsilon_i) \Delta x_i} =
+        \lambda \lim_{\Delta x \to 0}{\sum_{i=1}^n f(\varepsilon_i) \Delta x_i} = \lambda  \int\limits_a^b f(x)dx.
+    \end{equation}
+\end{proof}
+
+\begin{property}
+    \begin{equation}
+        \int\limits_{a}^{b} [f(x) + g(x)] dx =
+        \int\limits_{a}^{b} f(x)dx + \int\limits_{a}^{b} g(x)dx.
+    \end{equation}
+\end{property}
+
+\begin{proof}
+    \begin{equation}
+        \begin{gathered}
+            \int\limits_{a}^{b} [f(x) + g(x)] =
+            \lim_{\Delta x \to 0} \sum_{i = 1}^n [f(c_i) + g(c_i)] \Delta x_i = \\ =
+            \lim_{\Delta x \to 0} \sum_{i = 1}^n f(c_i) \Delta x_i + \lim_{\Delta x \to 0} \sum_{i = 1}^n g(c_i) \Delta x_i =
+            \int\limits_{a}^{b} f(x)dx + \int\limits_{a}^{b} g(x)dx.
+        \end{gathered}
+    \end{equation}
+\end{proof}
+
+\begin{property}
+    \begin{equation}
+        a < b \; \forall x \in [a, b]: f(x) \leq g(x) \implies \int\limits_a^b f(x)dx \leq \int\limits_a^b g(x)dx
+    \end{equation}
 \end{property}
 
 \begin{proof}
     \begin{gather*}
-        \int_a^b Af(x)dx = \lim_{\Delta x \to 0}{\sum_{i=1}^n Af(\varepsilon_i) \Delta x_i} = \\
-        A\lim_{\Delta x \to 0}{\sum_{i=1}^n f(\varepsilon_i) \Delta x_i} = A \int_a^b f(x)dx
-    \end{gather*}
-\end{proof}
-
-\begin{property}
-    \[
-        \int_a^b (f_1(x) + f_2(x))dx = \int_a^b f_1(x)dx + \int_a^b f_2(x)dx
-    \]
-\end{property}
-
-\begin{property}
-    \[
-        a < b \; \forall x \in [a, b]: f(x) \leq g(x) \implies \int_a^b f(x)dx \leq \int_a^b g(x)dx
-    \]
-\end{property}
-
-\begin{proof}
-    \begin{gather*}
-        \int_a^b g(x)dx - \int_a^b f(x)dx = \int_a^b (g(x) - f(x))dx \\
-        g(x) - f(x) \geq 0 \implies \int_a^b (g(x) - f(x))dx \geq 0 \implies \int_a^b g(x)dx - \int_a^b f(x)dx \geq 0
+        \int\limits_a^b g(x)dx - \int\limits_a^b f(x)dx = \int\limits_a^b (g(x) - f(x))dx \\
+        g(x) - f(x) \geq 0 \implies \int\limits_a^b (g(x) - f(x))dx \geq 0 \implies \int\limits_a^b g(x)dx - \int\limits_a^b f(x)dx \geq 0
     \end{gather*}
 \end{proof}
 
 \begin{property}
     Пусть \(m\) — наименьшее значение, \(M\) — наибольшее значение, \(y = f(x)\) непрерывна на \([a, b], a \leq b\). Тогда
-    \[
-        m(b - a) \leq \int_a^b f(x)dx \leq M(b - a)
-    \]
+    \begin{equation}
+        m(b - a) \leq \int\limits_a^b f(x)dx \leq M(b - a)
+    \end{equation}
 \end{property}
 
 \begin{proof}
     По условию, \(m \leq f(x) \leq M\). Тогда по 3-му свойству: % TODO: добавить ссылку
-    \[
-        \begin{cases}
-            \int_a^b mdx \leq \int_a^b f(x)dx \leq \int_a^b Mdx \\
-            \int_a^b mdx = m(b - a)                             \\
-            \int_a^b Mdx = M(b - a)
-        \end{cases}
-        \implies
-        m(b - a) \leq \int_a^b f(x)dx \leq M(b - a)
-    \]
+    \begin{equation}
+        \begin{gathered}
+            \int\limits_a^b mdx \leq \int\limits_a^b f(x)dx \leq \int\limits_a^b Mdx,
+            \quad
+            \int\limits_a^b mdx = m(b - a),
+            \quad
+            \int\limits_a^b Mdx = M(b - a)
+            \implies \\ \implies
+            m(b - a) \leq \int\limits_a^b f(x)dx \leq M(b - a)
+        \end{gathered}
+    \end{equation}
 \end{proof}
+
+\begin{property}
+    \begin{equation}
+        \lets b \in [a, c]
+        \implies
+        \int\limits_{a}^{c} f(x)dx = \int\limits_{a}^{b} f(x)dx + \int\limits_{b}^{c} f(x)dx.
+    \end{equation}
+\end{property}
+
+\begin{proof}
+    \begin{equation}
+        \begin{gathered}
+            \int\limits_{a}^{c} f(x)dx =
+            \lim_{\Delta x \to 0} \sum_{i = 1}^n \underset{[a, c]}{f(w_i) \Delta x_i} =
+            \lim_{\Delta x \to 0} \Big( \sum_{i = 1}^k \underset{[a, b]}{f(w_i) \Delta x_i} + \sum_{i = k +1}^n \underset{[b, c]}{f(w_i) \Delta x_i} \Big) = \\ =
+            \lim_{\Delta x \to 0} \sum_{i = 1}^k \underset{[a, b]}{f(w_i) \Delta x_i} +
+            \lim_{\Delta x \to 0} \sum_{i = k +1}^n \underset{[b, c]}{f(w_i) \Delta x_i} =
+            \int\limits_{a}^{b} f(x)dx + \int\limits_{b}^{c} f(x)dx.
+        \end{gathered}
+    \end{equation}
+\end{proof}
+
+\section{Теоремы}%
+\label{sec:Теоремы}
 
 \begin{theorem}[о среднем]
     Пусть \(y = f(x)\) непрерывна на \([a, b]\), тогда:
@@ -923,18 +1035,23 @@
     \]
 \end{proof}
 
-\begin{property}
-    \[
-        \forall a, b, c \implies \int_a^b f(x)ddx = \int f_a^b f(x)dx = \int f_c^b f(x)dx
-    \]
-\end{property}
+
+
+
+\begin{theorem}
+    Если \(y = f(x)\) непрерывна на \([a, b]\), то \(\exists \displaystyle \int_a^b f(x)dx\).
+\end{theorem}
 
 \begin{proof}
-    \begin{gather*}
-        a < c < b \implies \int_a^b f(x)dx = \int_a^c f(x)dx + \int_c^b f(x)dx \\
-        a < b < c \implies \int_a^c f(x)dx = \int_a^b f(x)dx + \int_b^c f(x)dx + \int_a^b f(x)dx - \int_c^b f(x)dx \\
-    \end{gather*}
+    % TODO: добавить доказательство для теоремы выше
 \end{proof}
+
+\begin{note}
+    Интеграл не зависит от переменной интегрирования:
+    \[
+        \int_a^b f(x)dx = \int_a^b f(z)dz = \int_a^b f(t)dt
+    \]
+\end{note}
 
 \begin{definition}
     \(\displaystyle F(x) = \int_a^x f(t)dt\) — функция верхнего порядка
@@ -963,7 +1080,51 @@
     Так как \(y = f(x)\) непрерывна, то при \(\Delta x \to 0 \; \xi \to x\).
 \end{proof}
 
-\begin{theorem}[Ньютона-Лейбница]
+% TODO: может переместить в другой раздел?
+\begin{theorem}[Теорема Барроу]
+    Производная интеграла с переменным верхним пределом по этому верхнему пределу равна значению подынтегральной функции на верхнем пределе интегрирования:
+    \begin{equation}
+        \Phi'(x) = \Big( \int\limits_{a}^{x} f(t)dt \Big)'_x = f(x).
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    \begin{equation}
+        \Phi(x + \Delta x) =
+        \int\limits_{a}^{x + \Delta x} f(t)dt =
+        \int\limits_{a}^{x} f(t)dt + \int\limits_{x}^{x + \Delta x} f(t)dt =
+        \Phi(x) + \int\limits_{x}^{\Delta x} f(t)dt
+    \end{equation}
+
+    \begin{equation}
+        \Delta \Phi = \Phi(x + \Delta x) - \Phi(x) =
+        \int\limits_{x}^{x + \Delta x} f(t)dt = f(c) \Delta x,
+        \quad
+        c \in [x, x + \Delta x].
+    \end{equation}
+
+    \begin{equation}
+        f(c) = \frac{\Delta \Phi}{\Delta x}.
+    \end{equation}
+
+    Точка \(c\) существует по теореме о среднем. Пусть \(\Delta x \to 0\), тогда \(c \to x\). Так как \(f(t)\) непрерывна в точке \(t = x\), то
+    \begin{equation}
+        \exists \lim_{\Delta x \to 0} f(c) = f(x)
+        \implies
+        \Phi'(x) = \lim_{\Delta x \to 0} \frac{\Delta \Phi}{\Delta x} = f(x).
+    \end{equation}
+\end{proof}
+
+\begin{consequence}
+    Интеграл \(\int\limits_{a}^{x} f(t)dt\) с переменным верхним пределом интегрирования есть первообразная для подынтегральной функции \(f(x)\). Из этого следует, что любая непрерывная функция имеет первообразную:
+    \begin{equation}
+        \Phi(x) = \int\limits_{a}^{x} f(t)dt.
+    \end{equation}
+\end{consequence}
+% TODO: end
+
+% TODO: может переместить в другой раздел?
+\begin{theorem}[Формула Ньютона-Лейбница]
     \begin{equation}
         \lets f(x) \in C[a, b], \; F'(x) = f(x)
         \implies
@@ -985,6 +1146,7 @@
         \lets x = b \implies = F(b) + C = F(b) - F(a).
     \end{equation}
 \end{proof}
+% TODO: end
 
 \subsection{Замена переменной}%
 \label{sub:Замена переменной}
@@ -1017,35 +1179,156 @@
     = 128(\frac{\pi}{2} + \frac{\sin{\pi}}{2}) - 128(0 + \frac{\sin{0}}{2}) = 64\pi
 \end{gather*}
 
+\section{Вычисление площади плоской фигуры}%
+\label{sec:Вычисление площади плоской фигуры}
 
-\section{Несобственные интегралы}%
-\label{sec:Несобственные интегралы}
+Площадь криволинейной трапеции, ограниченной кривой \(y = f(x)\), где \(f(x) \geq 0\), прямыми \(x = a\), \(x = b\) и отрезком \([a, b]\) оси \(OX\), вычисляется по формуле:
+\[
+    S = \int_a^b f(x)dx
+\]
 
-\subsection{Определение}%
-\label{sub:Определение}
+Площадь фигуры, ограниченной кривыми \(y = f_1(x)\) и \(y = f_2(x)\), где \(f_1(x) \leq f_2(x)\), прямыми \(x = a\), \(x = b\), вычисляется по формуле:
+\[
+    S = \int_a^b [f_2(x) - f_1(x)]dx
+\]
 
-Несобственными интегралами называются:
-\begin{enumerate}
-    \item {интегралы с бесконечными пределами;}
-    \item {интегралы от неограниченных функций.}
-\end{enumerate}
+Если кривая задана параметрически, то есть \(x = x(t)\), \(y = y(t)\), то площадь криволинейной трапеции, ограниченной этой кривой, прямыми \(x = a\), \(x = b\) и отрезком \([a, b]\) оси \(OX\), вычисляется по формуле:
+\[
+    \int_{t_1}^{t_2} y(t) x'(t) dt,
+\]
 
-Пусть \(f(x) \in C [a, +\infty)\), тогда несобственный интеграл равен:
+где \(t_1\) и \(t_2\) находится из следующих уравнений:
+\begin{gather*}
+    a = x(t_1) \\
+    b = x(t_2)
+\end{gather*}
+
+причем \(y(t) \geq 0\) при \(t_1 \leq t \leq t_2\).
+
+Площадь кривой сектора, ограниченного прямой в полярных координатах, заданной \(\rho = \rho(\theta)\) и двумя полярными радиусами \(\theta = \alpha\), \(\theta = \beta\) (\(\alpha < \beta\)), вычисляется по формуле:
+\[
+    S = \frac{1}{2} \int_{\alpha}^{\beta} \rho^2 d\theta
+\]
+
+\section{Вычисление длины дуги плоской кривой}%
+\label{sec:Вычисление длины дуги плоской кривой}
+
+Если кривая \(y = f(x)\) на \([a, b]\) — гладкая (т. е. \(y' = f'(x)\) непрерывна), то длина дуги равна:
+\[
+    L = \int_a^b \sqrt{1 + y^2} dx
+\]
+
+Если кривая задана параметрически \(x = x(t)\), \(y = y(t)\), где \(x(t)\) и \(y(t)\) — непрерывно диф. функции, то длина дуги равна:
+\[
+    L = \int_{t_1}^{t_2} \sqrt{x'^2 + y'^2}dt, \quad t_1 \leq t \leq t_2
+\]
+
+Если кривая задана в полярных координатах \(\rho = \rho(\theta)\), где \(\alpha \leq \theta \leq \beta\), то длина дуги равна:
+\[
+    L = \int_{\alpha}^{\beta} \sqrt{\rho^2 + \rho'^2} d\theta
+\]
+
+Циклоида:
+\begin{gather*}
+    x = a(t - \sin{t}),
+    \qquad
+    y = a(1 - \cos{t})
+\end{gather*}
+
+% TODO: добавить длину дуги
+
+Кардиоида:
+\begin{gather*}
+    \rho = a(1 + \cos{\varphi})
+\end{gather*}
+
+\begin{gather*}
+    L = 2 \int_0^\pi \sqrt{a^2(1 + \cos{\varphi})^2 + a^2\sin^2{\varphi}} d\varphi = 4a \int_0^\pi \cos{\dfrac{\varphi}{2}} d\varphi
+\end{gather*}
+
+\section{Вычисление площади поверхности вращения}%
+\label{sec:Вычисление площади поверхности вращения}
+
+Площадь поверхности вращения вокруг оси \(OX\):
+\begin{gather*}
+    S_x = 2\pi \int_a^b y\sqrt{1 + (y')^2}dx
+\end{gather*}
+
+Площадь боковой поверхности усеченного конуса:
+\begin{gather*}
+    S = \pi(r + R)l
+\end{gather*}
+
+Пусть \(S = S(x)\) — величина площади поверхности части фигуры вращения, лежащей левее плоскости \(x = a\), то есть \(S(a) = 0\), \(S(b) = S\).
+
+\(S\) получит приращение:
+\[
+    \Delta S = \pi \Big(y + (y + dy)\Big) \cdot dl = 2\pi ydl + \pi dy \cdot dl
+\]
+
+Поскольку \(\pi dy \cdot dl\) при \(\Delta x \to 0\) — бесконечно малая более высокого порядка, чем \(dl\), значит ее можно отбросить.
+
+Тогда получим:
 \begin{equation}
-    \int_a^{+\infty} f(x)dx = \lim_{b \to +\infty}{\displaystyle \int_a^b f(x)dx}.
+    dS = 2\pi ydl, dl = \sqrt{1 + (y')^2}dx
+    \implies
+    S = 2\pi \int_a^b y\sqrt{1 + (y')^2}dx
+\end{equation}
+
+\begin{equation}
+    \lets x = x(t), y = y(t) \implies S = 2\pi \int_{t_1}^{t_2} y\sqrt{(x'_t)^2 + (y'_t)^2}dt
+\end{equation}
+
+
+\section{Вычисление объема тела}%
+\label{sec:Вычисление объема тела}
+
+\subsection{По известным площадям поперечных сечений}%
+\label{sub:По известным площадям поперечных сечений}
+
+Если площадь сечения тела плоскости, перпендикулярного оси \(OX\), может быть выражена как функция от \(x\), то есть \(S = f(x)\) при \(a \leq x \leq b\), то объем части тела, заключенной между перпендикулярной оси \(OX\) плоскостями \(x = a\) и \(x = b\), вычисляется по формуле:
+\[
+    V = \int_a^b S(x) dx
+\]
+
+\subsection{Объем тела вращения}%
+\label{sub:Объем тела вращения}
+
+Если криволинейная трапеция, ограниченная кривой \(y = f(x)\) и прямыми \(y = 0\), \(x = a\), \(x = b\), вращается вокруг оси \(OX\), то объем тела вращения равен:
+\[
+    V_x = \pi \int_a^b y^2 dx
+\]
+
+Если фигура, ограниченная кривыми \(y_1 = f_1(x)\), \(y_2 = f_2(x)\), где \(0 \leq f_1(x) \leq f_2(x)\), прямыми \(x = a\), \(x = b\), вращается вокруг оси \(OX\), то объем вычисляется по формуле:
+\[
+    V_x = \pi \int_a^b (y_2^2 - y_1^2)dx
+\]
+
+
+\chapter{Несобственные интегралы}%
+\label{cha:Несобственные интегралы}
+
+\section{Несобственный интеграл 1-го рода}%
+\label{sec:Несобственный интеграл 1-го рода}
+
+\begin{equation}
+    \lets f(x) \in C [a, +\infty),
+    \quad
+    \int\limits_{a}^{+\infty} f(x)dx = \lim_{b \to +\infty} \int\limits_{a}^{b} f(x)dx
 \end{equation}
 
 Если этот предел существует и конечен, то несобственный интеграл называется \textbf{сходящимся}, если же предел не существует или равен бесконечности, — \textbf{расходящимся}.
 
+
 Если для функции \(f(x)\) верно
 \begin{equation}
-    \begin{cases}
+    \begin{dcases*}
         f(x) \in C [a, c) \cup (c, b] \\
         \begin{sqcases}
             \lim_{x \to c - 0}{f(x)} = \infty \\
             \lim_{x \to c + 0}{f(x)} = \infty
         \end{sqcases}
-    \end{cases}
+    \end{dcases*}
 \end{equation}
 
 Тогда:
@@ -1054,6 +1337,8 @@
 \end{equation}
 
 Такой несобственный интеграл называется \textbf{сходящимся}, если оба предела в правой части равны, и расходящиеся, если не существует хотя бы один из них.
+
+% TODO: добавить свойства
 
 \subsection{Теоремы}%
 \label{sub:Теоремы}
@@ -1111,24 +1396,21 @@
 \section{Несобственный интеграл второго рода}%
 \label{sec:Несобственный интеграл второго рода}
 
-Пусть:
-\begin{gather*}
-    \int_a^d f(x)dx \\
-    a\leq c \leq d \\
-\end{gather*}
+\begin{equation}
+    \begin{gathered}
+        \lets \int_a^d f(x)dx, a\leq c \leq d
+        \implies
+        \begin{dcases*}
+            \int_a^c f(x)dx = \lim_{b \to c - 0}{\int_a^b f(x)dx} \\
+            \int_c^d f(x)dx = \lim_{a \to c + 0}{\int_a^d f(x)dx}
+        \end{dcases*}
+        \implies \\
+        \implies
+        \int_a^d f(x)dx = \int_a^c f(x)dx + \int_c^d f(x)dx
+    \end{gathered}
+\end{equation}
 
-Тогда:
-\begin{gather*}
-    \int_a^c f(x)dx = \lim_{b \to c - 0}{\int_a^b f(x)dx} \\
-    \int_c^d f(x)dx = \lim_{a \to c + 0}{\int_a^d f(x)dx} \\
-\end{gather*}
-
-Следовательно:
-\begin{gather*}
-    \int_a^d f(x)dx = \int_a^c f(x)dx + \int_c^d f(x)dx
-\end{gather*}
-
-Интеграл сходится, если \(\exists lim{}{}\) и он конечен.
+Интеграл сходится, если \(\exists \lim\) и он конечен.
 
 \begin{theorem}[Предельный признак сравнения]
     Пусть \(f(x)\) и \(g(x)\) непрерывны на \([a, b)\), причем в точке \(x = b\) они терпят бесконечный разрыв. Тогда, если
@@ -1143,147 +1425,75 @@
     Если \(f(x)\) знакопеременная функция на \([a, c]\), имеющая разрыв только в точке \(c\), причем \(\int_a^c |f(x)| dx\) сходится, то и \(\int_a^c f(x) dx\) сходится
 \end{theorem}
 
-\section{Вычисление площади плоской фигуры}%
-\label{sec:Вычисление площади плоской фигуры}
 
-Площадь криволинейной трапеции, ограниченной кривой \(y = f(x)\), где \(f(x) \geq 0\), прямыми \(x = a\), \(x = b\) и отрезком \([a, b]\) оси \(OX\), вычисляется по формуле:
-\[
-    S = \int_a^b f(x)dx
-\]
+\section{Признаки сходимости несобственных интегралов}%
+\label{sec:Признаки сходимости несобственных интегралов}
 
-Площадь фигуры, ограниченной кривыми \(y = f_1(x)\) и \(y = f_2(x)\), где \(f_1(x) \leq f_2(x)\), прямыми \(x = a\), \(x = b\), вычисляется по формуле:
-\[
-    S = \int_a^b [f_2(x) - f_1(x)]dx
-\]
+\subsection{Первый признак сравнения}%
+\label{sub:Первый признак сравнения}
 
-Если кривая задана параметрически, то есть \(x = x(t)\), \(y = y(t)\), то площадь криволинейной трапеции, ограниченной этой кривой, прямыми \(x = a\), \(x = b\) и отрезком \([a, b]\) оси \(OX\), вычисляется по формуле:
-\[
-    \int_{t_1}^{t_2} y(t) x'(t) dt,
-\]
+% FIX: remove
+% \subsubsection{Для несобственных интегралов 1 рода}%
+% \label{ssub:Для несобственных интегралов 1 рода}
 
-где \(t_1\) и \(t_2\) находится из следующих уравнений:
-\begin{gather*}
-    a = x(t_1) \\
-    b = x(t_2)
-\end{gather*}
+\begin{equation}
+    \lets f(x), g(x) \in C [a, +\infty): \forall x \in [a, +\infty) \implies 0 \leq f(x) \leq g(x).
+\end{equation}
 
-причем \(y(t) \geq 0\) при \(t_1 \leq t \leq t_2\).
+\begin{equation}
+    \int\limits_{a}^{+\infty} f(x)dx \; — \; \text{расходится} \implies \int\limits_{a}^{+\infty} g(x)dx \; — \; \text{тоже расходится}.
+\end{equation}
 
-Площадь кривой сектора, ограниченного прямой в полярных координатах, заданной \(\rho = \rho(\theta)\) и двумя полярными радиусами \(\theta = \alpha\), \(\theta = \beta\) (\(\alpha < \beta\)), вычисляется по формуле:
-\[
-    S = \frac{1}{2} \int_{\alpha}^{\beta} \rho^2 d\theta
-\]
+\begin{equation}
+    \int\limits_{a}^{+\infty} g(x)dx \; — \; \text{сходится} \implies \int\limits_{a}^{+\infty} f(x)dx \; — \; \text{тоже сходится}.
+\end{equation}
 
-\section{Вычисление длины дуги плоской кривой}%
-\label{sec:Вычисление длины дуги плоской кривой}
+\begin{proof}
+    \begin{equation}
+        \lets F(M) = \int\limits_{a}^{M} f(x)dx,
+        \quad
+        G(M) = \int\limits_{a}^{M} g(x)dx,
+        \quad
+        M \geq a.
+    \end{equation}
 
-Если кривая \(y = f(x)\) на \([a, b]\) — гладкая (т. е. \(y' = f'(x)\) непрерывна), то длина дуги равна:
-\[
-    L = \int_a^b \sqrt{1 + y^2} dx
-\]
+    Из условия следует, что
+    \begin{equation}
+        \forall M \geq a \implies F(M) \leq G(M).
+    \end{equation}
 
-Если кривая задана параметрически \(x = x(t)\), \(y = y(t)\), где \(x(t)\) и \(y(t)\) — непрерывно диф. функции, то длина дуги равна:
-\[
-    L = \int_{t_1}^{t_2} \sqrt{x'^2 + y'^2}dt, \quad t_1 \leq t \leq t_2
-\]
+    Если интеграл \(\int\limits_{a}^{+ \infty} g(x)dx\) сходится, то функция \(G\) ограничена на \([a, +\infty)\). Значит ограничена и функция \(F\). Следовательно, интеграл \(\int\limits_{a}^{+\infty} f(x)dx\) сходится.
+\end{proof}
 
-Если кривая задана в полярных координатах \(\rho = \rho(\theta)\), где \(\alpha \leq \theta \leq \beta\), то длина дуги равна:
-\[
-    L = \int_{\alpha}^{\beta} \sqrt{\rho^2 + \rho'^2} d\theta
-\]
+\subsection{Второй признак сравнения}%
+\label{sub:Второй признак сравнения}
 
-Циклоида:
-\begin{gather*}
-    x = a(t - \sin{t}) \\
-    y = a(1 - \cos{t})
-\end{gather*}
+\begin{equation}
+    \lets f(x), g(x) \in C [a, +\infty): f(x) \geq 0, g(x) \geq 0.
+\end{equation}
+\begin{equation}
+    \exists \lim_{x \to +\infty} \frac{f(x)}{g(x)} = k: 0 < k < \infty,
+\end{equation}
+значит интегралы \(\int\limits_{a}^{+\infty} f(x)dx\) и \(\int\limits_{a}^{+\infty} g(x)dx\)  сходятся или расходятся одновременно.
 
-% TODO: добавить длину дуги
+\begin{proof}
+    \begin{equation}
+        \forall \varepsilon > 0 \; \exists \delta = \delta(\varepsilon): \forall x > \delta \implies \Big| \frac{f(x)}{g(x)} - A \Big| < \varepsilon
+        \implies
+        K - \varepsilon < \frac{f(x)}{g(x)} < K + \varepsilon.
+    \end{equation}
+    \begin{equation}
+        (K - \varepsilon) g(x) < f(x) < (K + \varepsilon) f(x).
+    \end{equation}
 
-Кардиоида:
-\begin{gather*}
-    \rho = a(1 + \cos{\varphi})
-\end{gather*}
+    \begin{itemize}
+        \item Если \(\int\limits_{a}^{+\infty} f(x)dx\) сходится, то по первому признаку сходится \(\int\limits_{a}^{+\infty} (K - \varepsilon) g(x)dx\), а следовательно сходится \(\int\limits_{a}^{+\infty} g(x)dx\).
+        \item Если \(\int\limits_{a}^{+\infty} g(x)dx\) сходится, то сходится \(\int\limits_{a}^{+\infty} (K + \varepsilon) g(x)dx\), следовательно, по первому признаку сходится \(\int\limits_{a}^{+\infty} f(x)dx\).
+        \item Пусть \(\int\limits_{a}^{+\infty} f(x)dx\) расходится. Если \(\int\limits_{a}^{+\infty} g(x)dx\) сходится, то по первому признаку \(\int\limits_{a}^{+\infty} f(x)dx\) сходится — противоречие.
+        \item Пусть \(\int\limits_{a}^{+\infty} g(x)dx\) расходится. Если интеграл \(\int\limits_{a}^{+\infty} f(x)dx\) сходится, то по первому признаку \(\int\limits_{a}^{+\infty} g(x)dx\) сходится — противоречие.
+    \end{itemize}
+\end{proof}
 
-\begin{gather*}
-    L = 2 \int_0^\pi \sqrt{a^2(1 + \cos{\varphi})^2 + a^2\sin^2{\varphi}} d\varphi = 4a \int_0^\pi \cos{\dfrac{\varphi}{2}} d\varphi
-\end{gather*}
-
-\section{Вычисление площади поверхности вращения}%
-\label{sec:Вычисление площади поверхности вращения}
-
-Площадь поверхности вращения вокруг оси \(OX\):
-\begin{gather*}
-    S_x = 2\pi \int_a^b y\sqrt{1 + (y')^2}dx
-\end{gather*}
-
-Площадь боковой поверхности усеченного конуса:
-\begin{gather*}
-    S = \pi(r + R)l
-\end{gather*}
-
-Пусть \(S = S(x)\) — величина площади поверхности части фигуры вращения, лежащей левее плоскости \(x = a\), то есть \(S(a) = 0\), \(S(b) = S\).
-
-\(S\) получит приращение:
-\[
-    \Delta S = \pi \Big(y + (y + dy)\Big) \cdot dl = 2\pi ydl + \pi dy \cdot dl
-\]
-
-Поскольку \(\pi dy \cdot dl\) при \(\Delta x \to 0\) — бесконечно малая более высокого порядка, чем \(dl\), значит ее можно отбросить.
-
-Тогда получим:
-\begin{gather*}
-    dS = 2\pi ydl, \qquad (dl = \sqrt{1 + (y')^2}dx) \\ \\
-    S = 2\pi \int_a^b y\sqrt{1 + (y')^2}dx
-\end{gather*}
-
-Если:
-\begin{gather*}
-    x = x(t) \\
-    y = y(t)
-\end{gather*}
-
-Тогда:
-\begin{gather*}
-    S = 2\pi \int_{t_1}^{t_2} y\sqrt{(x'_t)^2 + (y'_t)^2}dt
-\end{gather*}
-
-\section{Вычисление объема тела}%
-\label{sec:Вычисление объема тела}
-
-\subsection{По известным площадям поперечных сечений}%
-\label{sub:По известным площадям поперечных сечений}
-
-Если площадь сечения тела плоскости, перпендикулярного оси \(OX\), может быть выражена как функция от \(x\), то есть \(S = f(x)\) при \(a \leq x \leq b\), то объем части тела, заключенной между перпендикулярной оси \(OX\) плоскостями \(x = a\) и \(x = b\), вычисляется по формуле:
-\[
-    V = \int_a^b S(x) dx
-\]
-
-\subsection{Объем тела вращения}%
-\label{sub:Объем тела вращения}
-
-Если криволинейная трапеция, ограниченная кривой \(y = f(x)\) и прямыми \(y = 0\), \(x = a\), \(x = b\), вращается вокруг оси \(OX\), то объем тела вращения равен:
-\[
-    V_x = \pi \int_a^b y^2 dx
-\]
-
-Если фигура, ограниченная кривыми \(y_1 = f_1(x)\), \(y_2 = f_2(x)\), где \(0 \leq f_1(x) \leq f_2(x)\), прямыми \(x = a\), \(x = b\), вращается вокруг оси \(OX\), то объем вычисляется по формуле:
-\[
-    V_x = \pi \int_a^b (y_2^2 - y_1^2)dx
-\]
-
-\subsection{Вычисление площади поверхности вращения}%
-\label{sub:Вычисление площади поверхности вращения}
-
-Если дуга гладкой кривой \(y = f(x)\) на \([a, b]\) вращается вокруг оси \(OX\), то площадь поверхности вращения вычисляется по формуле:
-\begin{gather*}
-    S_x = 2\pi \int_a^b y\sqrt{1 + y^2}dx
-\end{gather*}
-
-Если кривая задана параметрическими уравнениями \(x = x(t)\), \(y = y(t)\) на \([t_1, t_2]\), то
-\begin{gather*}
-    %TODO: добавить формулу
-\end{gather*}
 
 \chapter{Функции двух переменных}%
 \label{cha:Функции двух переменных}
@@ -1479,33 +1689,6 @@
         dz = \frac{\partial z}{\partial x} dx + \frac{\partial z}{\partial y} dy
     \end{gather*}
 \end{definition}
-
-\subsection{Производные сложных функций}%
-\label{sub:Производные сложных функций}
-
-Пусть дана дифференцируемая функция \(z = f(x, y)\). Рассмотрим пример, когда \(x\) и \(y\) зависят от одной переменной, то есть \(x = x(t)\) и \(y = y(t)\):
-
-\begin{gather*}
-    \Delta z = z'_x \Delta x + z'_y \Delta y + \alpha \Delta x \\
-    \lim_{\Delta t \to 0}{\dfrac{\Delta z}{\Delta t}} =
-    z'_x \lim_{\Delta t \to 0}{\dfrac{\Delta x}{\Delta t}} +
-    z'_y \lim_{\Delta t \to 0}{\dfrac{\Delta y}{\Delta t}} +
-    \underbrace{\alpha \lim_{\Delta t \to 0}{\dfrac{\Delta x}{\Delta t}}}_{\to 0}+
-    \underbrace{\beta \lim_{\Delta t \to 0}{\dfrac{\Delta y}{\Delta t}}}_{\to 0} \\
-\end{gather*}
-
-
-Тогда:
-\begin{gather*}
-    \frac{dz}{dt} = \frac{\partial z}{\partial x} \cdot \frac{dx}{dt} + \frac{\partial z}{\partial y} \cdot \frac{dy}{dt}
-\end{gather*}
-
-Теперь рассмотрим пример с той же функцией \(z\), но теперь \(x\) и \(y\) зависят от двух переменных, то есть \(x = x(u, v)\) и \(y = y(u, v)\):
-\begin{gather*}
-    \frac{\partial z}{\partial u} = \frac{\partial z}{\partial x} \cdot \frac{\partial x}{\partial u} + \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial u}
-    \qquad \qquad
-    \frac{\partial z}{\partial v} = \frac{\partial z}{\partial x} \cdot \frac{\partial x}{\partial v} + \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial v}
-\end{gather*}
 
 \section{Инвариантность формы полного дифференциала}%
 \label{sec:Инвариантность формы полного дифференциала}
@@ -1769,19 +1952,16 @@
 \section{Частные производные, дифференциалы высших порядков}%
 \label{sec:Частные производные, дифференциалы высших порядков}
 
-Частными производными второго порядка от функции \(z = f(x, y)\) называется частная производная от ее частных производных первого порядка.
-
-Обозначения:
+Частными производными \(n\)-го порядка от функции \(z = f(x, y)\) называется частная производная от ее частных производных \(n - 1\) первого порядка:
 \begin{gather*}
-    \frac{\partial}{\partial x} \Big(\frac{\partial z}{\partial x}\Big) = \frac{\partial^2 z}{\partial x^2} = f''_{xx}(x, y) \\
+    \frac{\partial}{\partial x} \Big(\frac{\partial z}{\partial x}\Big) = \frac{\partial^2 z}{\partial x^2} = f''_{xx}(x, y)
+    \qquad \qquad
     \frac{\partial}{\partial y} \Big(\frac{\partial z}{\partial x}\Big) = \frac{\partial^2 z}{\partial x \partial y} = f''_{xy}(x, y) \\
-    \frac{\partial}{\partial x} \Big(\frac{\partial z}{\partial y}\Big) = \frac{\partial^2 z}{\partial y \partial x} = f''_{yx}(x, y) \\
-    \frac{\partial}{\partial y} \Big(\frac{\partial z}{\partial y}\Big) = \frac{\partial^2 z}{\partial y^2} = f''_{yy}(x, y)
-\end{gather*}
-
-Аналогично определяются и обозначаются производные высших порядков:
-\begin{gather*}
-    \frac{\partial}{\partial x} \Big(\frac{\partial^2 z}{\partial x^2}\Big) = \frac{\partial^3 z}{\partial x^3} = f'''_{xxx}(x, y) \\
+    \frac{\partial}{\partial x} \Big(\frac{\partial z}{\partial y}\Big) = \frac{\partial^2 z}{\partial y \partial x} = f''_{yx}(x, y)
+    \qquad \qquad
+    \frac{\partial}{\partial y} \Big(\frac{\partial z}{\partial y}\Big) = \frac{\partial^2 z}{\partial y^2} = f''_{yy}(x, y) \\
+    \frac{\partial}{\partial x} \Big(\frac{\partial^2 z}{\partial x^2}\Big) = \frac{\partial^3 z}{\partial x^3} = f'''_{xxx}(x, y)
+    \qquad \qquad
     \frac{\partial}{\partial y} \Big(\frac{\partial^2 z}{\partial x^2}\Big) = \frac{\partial^3 z}{\partial x^2 \partial y} = f'''_{xxy}(x, y).
 \end{gather*}
 
@@ -1790,14 +1970,13 @@
     \frac{\partial^2 z}{\partial x \partial y} = \frac{\partial^2 z}{\partial y \partial x}
 \end{gather*}
 
-Дифференциалы 2-го порядка от функции \(z = f(x, y)\) называется дифференциал от ее полного дифференциала, то есть:
+Дифференциал \(n\)-го порядка — дифференциал от полного дифференциала \(n - 1\) порядка:
 \begin{gather*}
-    d^2 z = d(dz).
-\end{gather*}
-
-Аналогично для 3-го и высших порядков:
-\begin{gather*}
-    d^3 z = d(d^2z) \qquad \qquad d^n z = d(d^{n - 1} z)
+    d^2 z = d(dz),
+    \qquad \qquad
+    d^3 z = d(d^2z),
+    \qquad \qquad
+    d^n z = d(d^{n - 1} z).
 \end{gather*}
 
 Если \(x\), \(y\) — независимые переменные и функция \(f(x, y)\) имеет непрерывные частные производные, то дифференциалы высших порядков вычисляются по формуле:
@@ -1810,21 +1989,28 @@
 \section{Дифференцирование сложных функции}%
 \label{sec:Дифференцирование сложных функции}
 
-Пусть \(z = f(x, y)\), где \(x = \varphi(t)\), \(y = \psi(t)\), причем \(f(x, y)\), \(\varphi(t)\) и \(\psi(t)\) — дифференцируемые функции. Тогда производная сложной функции \(z = f[\varphi(t), \psi(t)]\) вычисляется по формуле:
-\begin{gather*}
-    \frac{dz}{dt} = \frac{\partial z}{\partial x} \cdot \frac{dx}{dt} + \frac{\partial z}{\partial y} \cdot \frac{dy}{dt}.
-\end{gather*}
+\begin{equation}
+    \lets z = f(x, y), f(x, y) \in C^1, x = x(t), y = y(t)
+    \implies
+    \frac{dz}{dt} = \frac{\partial z}{\partial x} \cdot \frac{dx}{dt} + \frac{\partial z}{\partial y} \cdot \frac{dy}{dt}
+\end{equation}
 
-Если \(z = f(x, y)\), где \(y = \varphi(x)\), то полная производная от \(z\) по \(x\) вычисляется по формуле:
-\begin{gather*}
+\begin{equation}
+    \lets z = f(x, y), f(x, y) \in C^1, y = \varphi(x)
+    \implies
     \frac{dz}{dx} = \frac{\partial z}{\partial x} + \frac{\partial z}{\partial y} \cdot \frac{dy}{dx}
-\end{gather*}
+\end{equation}
 
-Если \(z = f(x, y)\), где \(x = \varphi(\xi, \eta)\), \(y = \varphi(\xi, \eta)\), то частные производные от \(z\) по \(\xi\) и \(\eta\) вычисляются по формулам:
-\begin{gather*}
-    \frac{\partial z}{\partial \xi} = \frac{\partial z}{\partial x} \cdot \frac{\partial x}{\partial \xi} + \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial \xi} \\
-    \frac{\partial z}{\partial \eta} = \frac{\partial z}{\partial x} \cdot \frac{\partial x}{\partial \eta} + \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial \eta}
-\end{gather*}
+\begin{equation}
+    \lets z = f(x, y), f(x, y) \in C^1, x = x(u, v), y = y(u, v)
+    \implies
+    \begin{dcases*}
+        \frac{\partial z}{\partial u} = \frac{\partial z}{\partial x} \cdot \frac{\partial x}{\partial u} + \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial u}
+        \\
+        \frac{\partial z}{\partial v} = \frac{\partial z}{\partial x} \cdot \frac{\partial x}{\partial v} + \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial v}
+    \end{dcases*}
+\end{equation}
+
 
 \section{Производные по направлению. Градиент}%
 \label{sec:Производные по направлению. Градиент}
@@ -1836,39 +2022,49 @@
     \rho = \sqrt{\Delta x^2 + \Delta y^2}
 \end{gather*}
 
-Если функция \(z = f(x, y)\) дифференцируема, то производная в данном направлении вычисляется по формуле:
-\begin{gather*}
-    \frac{\partial z}{\partial x} \cdot \cos{\alpha} + \frac{\partial z}{\partial y} \cdot \sin{\alpha},
-\end{gather*}
+\begin{equation}
+    \lets z = f(x, y), f(x, y) \in C^1
+    \implies
+    \frac{\partial z}{\partial l} = \frac{\partial z}{\partial x} \cdot \cos{\alpha} + \frac{\partial z}{\partial y} \cdot \sin{\alpha},
+    \quad
+    \alpha = \angle (\vv{l}, Ox)
+\end{equation}
 
-где \(\alpha\) — угол, образованный \(l\) с осью \(Ox\).
+\begin{equation}
+    \begin{gathered}
+        \lets u = f(x, y, z), f(x, y, z) \in C^1
+        \implies
+        \frac{\partial u}{\partial l} = \frac{\partial u}{\partial x} \cos{\alpha} + \frac{\partial u}{\partial y} \cos{\beta} + \frac{\partial u}{\partial z} \cos{\gamma},
+        \\
+        \cos{\alpha} = \frac{l_x}{|\vv{l}|},
+        \quad
+        \cos{\beta} = \frac{l_y}{|\vv{l}|},
+        \quad
+        \cos{\gamma} = \frac{l_z}{|\vv{l}|}.
+    \end{gathered}
+\end{equation}
 
-В случае трех переменных \(u = f(x, y, z)\) формула принимает вид:
-\begin{gather*}
-    \frac{\partial u}{\partial l} = \frac{\partial u}{\partial x} \cos{\alpha} + \frac{\partial u}{\partial y} \cos{\beta} + \frac{\partial u}{\partial z} \cos{\gamma},
-\end{gather*}
-
-где \(\cos{\alpha}\), \(\cos{\beta}\), \(\cos{\gamma}\) — направляющие косинусы вектора \(l\).
 
 Градиентом функции \(z = f(x, y)\) в точке \(M(x, y)\) называется вектор с началом в точке \(M\), имеющий своими координатами частные производные функции \(z\):
-\begin{gather*}
+\begin{equation}
     grad \; z = \frac{\partial z}{\partial x} \vv{i} + \frac{\partial z}{\partial y} \vv{j}
-\end{gather*}
+\end{equation}
+Градиент указывает направление наибыстрейшего роста функции в точке.
 
-Градиент функции и производная в направлении вектора \(l\) связаны формулой:
-\begin{gather*}
+Связь градиента и производной в направлении:
+\begin{equation}
     \frac{\partial z}{\partial l} = \text{пр}_l grad \; z
-\end{gather*}
+\end{equation}
 
-Градиент указывает направление наибыстрейшего роста функции в точке. Производная \(\frac{\partial z}{\partial l}\) в направлении градиента принимает наибольшее значение, равное:
-\begin{gather*}
+\begin{equation}
     \Big(\frac{\partial z}{\partial l}\Big)_\text{наиб} = |grad \; z| = \sqrt{\Big(\frac{\partial z}{\partial x}\Big)^2 + \Big(\frac{\partial z}{\partial y}\Big)^2}.
-\end{gather*}
+\end{equation}
 
-В случае функции \(u = f(x, y, z)\) градиент равен:
-\begin{gather*}
+\begin{equation}
+    \lets u = f(x, y, z)
+    \implies
     grad \; u = \frac{\partial u}{\partial x}\vv{i} + \frac{\partial u}{\partial y}\vv{j} + \frac{\partial u}{\partial z}\vv{k}
-\end{gather*}
+\end{equation}
 
 \section{Дифференцирование неявных функций}%
 \label{sec:Дифференцирование неявных функций}
@@ -2080,86 +2276,6 @@
 
 % TODO: дописать
 
-\section{Двойное интегрирование в прямоугольных координатах}%
-\label{sec:Двойное интегрирование в прямоугольных координатах}
-
-\(\lets f(x, y)\) определена в ограниченной замкнутой области \(D\) плоскости \(xOy\). Разобьем область \(D\) произвольным образом на \(n\) элементарных областей, имеющие площади \(\Delta \sigma_1, \Delta \sigma_2, \ldots, \Delta \sigma_n\) и диаметры \(d_1, d_2, \ldots, d_n\) (диаметр области — наибольшее расстояние между двумя точками границы этой области). Выберем в каждой элементарной области произвольную точку \(P_i (\xi_i, \eta_i)\) и умножим значение функции \(f\) в точке \(P_i\) на площадь этой области.
-
-Интегральная сумма для \(f(x, y)\) по области \(D\):
-\begin{equation}
-    \sum_{i=1}^n f(\xi_i, \eta_i) \Delta \sigma_i
-\end{equation}
-
-Если при \(\max{d_i} \to 0\) интегральная сумма имеет опред. конечный предел
-\begin{equation}
-    I = \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n f(\xi_i) \Delta \sigma_i},
-\end{equation}
-независящий от способа разбиения \(D\) на эл. области и способа выбора \(P_i\), то этот предел называется двойным интегралом \(f(x, y)\) в области \(D\) и обозначается:
-\begin{equation}
-    \iint\limits_D f(x, y) d\sigma = \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n f(\xi_i) \Delta \sigma_i}
-\end{equation}
-
-Если \(f(x, y) > 0\), то двойной интеграл равен объему цилиндрического тела, ограниченного сверху поверхностью \(z = f(x, y)\) с образующими параллельными оси \(Oz\) и снизу областью \(D\), которая лежит в плоскости \(xOy\).
-
-\section{Свойства}%
-\label{sec:Свойства}
-
-\begin{property}
-    \begin{equation}
-        \iint\limits_D [f_1(x, y) \pm f_2(x, y)]d\sigma = \iint\limits_D f_1(x, y)d\sigma \pm \iint\limits_D f_2(x, y)d\sigma
-    \end{equation}
-\end{property}
-
-\begin{property}
-    \begin{equation}
-        \iint\limits_D \lambda f(x, y)d\sigma = \lambda \iint\limits_D f(x, y)d\sigma, \qquad \lambda = const
-    \end{equation}
-\end{property}
-
-\begin{property}
-    Если \(D\) разбита на \(D_1\) и \(D_2\), то
-    \begin{equation}
-        \iint\limits_D f(x, y)d\sigma = \iint\limits_{D_1} f(x, y)d\sigma + \iint\limits_{D_2} f(x, y)d\sigma
-    \end{equation}
-\end{property}
-
-\begin{property}
-    Оценка двойного интеграла
-    \begin{equation}
-        m \leq f(x, y) \leq M \implies mS \leq \iint\limits_D f(x, y)d\sigma \leq MS,
-    \end{equation}
-    где \(S\) — площадь области \(D\), а \(m\) и \(M\) — наиб. и наим. значения \(f(x, y)\) в области \(D\) соотв.
-\end{property}
-
-\section{Правила вычисления двойного интеграла}%
-\label{sec:Правила вычисления двойного интеграла}
-
-\subsection{Способ 1}%
-\label{sub:Способ 1}
-
-Область интегрирования \(D\) ограничена слева и справа прямыми \(x = a\), \(x = b\), \(a < b\), а снизу и сверху — непрерывными кривыми \(y = \varphi_1(x)\) и \(y = \varphi_2(x)\), \(\varphi_1(x) \leq \varphi_2(x)\), каждая из которых пересекается вертикальной прямой только в одной точке:
-\begin{equation}
-    \iint\limits_D f(x, y)dxdy = \underbrace{\int\limits_a^b dx}_\text{повторный} \underbrace{\int\limits_{\varphi_1(x)}^{\varphi_2(x)} f(x, y)dy}_\text{внутренний},
-\end{equation}
-причем сначала вычисляется внутренний интеграл, в котором \(x = const\), а далее — повторный интеграл.
-
-\subsection{Способ 2}%
-\label{sub:Способ 2}
-
-Область интегрирования \(D\) ограничена снизу и сверху \(y = c\), \(y = d\), \(c < d\), а слева и справа — непрерывными кривыми \(x = \psi_1(y)\) и \(x = \psi_2(y)\), \(\psi_1(y) \leq \psi_2(y)\), каждая из которых пересекается горизонтальной прямой только в одной точке:
-\begin{equation}
-    \iint\limits_D = f(x, y)dxdy = \int\limits_c^d dy \int\limits_{\psi_1(y)}^{\psi_2(y)} f(x, y)dx
-\end{equation}
-
-\subsection{Алгоритм решения двойного интеграла}%
-\label{sub:Алгоритм решения двойного интеграла}
-
-\begin{enumerate}
-    \item {Построить чертеж для \(D\).}
-    \item {Расставить пределы интегрирования и перейти к повторным интегралам.}
-    \item {Вычислить внутренний интеграл.}
-    \item {Вычислить внешний интеграл и получить ответ.}
-\end{enumerate}
 
 \chapter{Тройной интеграл}
 \label{cha:Тройной интеграл}
@@ -2252,5 +2368,387 @@
 \begin{equation}
     S = \iint\limits_{D} \rho d\rho d\theta = \int\limits_{\alpha}^{\beta} d\theta \int\limits_{\varphi_1(x)}^{\varphi_2(x)} \rho d\rho
 \end{equation}
+
+\section{Вычисление объема тела}
+\label{sec:Вычисление объема тела}
+
+Объем цилиндрического тела, ограниченного сверху непрерывной поверхностью \(z = f(x, y)\), снизу плоскостью \(z = 0\) и сбоку цилиндрической поверхностью, вырезающей на плоскости \(xOy\) область \(D\), вычисляется по формуле:
+\begin{equation}
+    V = \iint\limits_{D} f(x, y)dxdy.
+\end{equation}
+
+\section{Вычисление площади поверхности}
+\label{sec:Вычисление площади поверхности}
+
+Если\(z = f(x, y)\), \(D\) — проекция данной поверхности на плоскость \(xOy\):
+\begin{equation}
+    S = \iint\limits_{D} \sqrt{1 + \Big( \frac{\partial z}{\partial x} \Big)^2 + \Big( \frac{\partial z}{\partial y} \Big)^2} dxdy,
+\end{equation}
+
+Если \(x = f(y, z)\), \(D\) — проекция на \(yOz\):
+\begin{equation}
+    S = \iint\limits_{D} \sqrt{1 + \Big( \frac{\partial x}{\partial y} \Big)^2 + \Big( \frac{\partial x}{\partial z} \Big)^2}dydz
+\end{equation}
+
+Если \(y = f(x, z)\), \(D\) — проекция на \(xOz\):
+\begin{equation}
+    S = \iint\limits_{D} \sqrt{1 + \Big( \frac{\partial y}{\partial x} \Big)^2 + \Big( \frac{\partial y}{\partial z} \Big)^2}dxdz
+\end{equation}
+
+\section{Тройные интегралы}
+\label{sec:Тройные интегралы}
+
+% TODO: добавить определение
+\begin{equation*}
+    \iiint\limits_{T} f(x, y, z) dV = \lim_{\max d_k \to 0} \underbrace{\sum_{k=1}^n f(\xi_k, \eta_k, \zeta_k) \Delta V_k}_\text{интегральная сумма}
+\end{equation*}
+
+\subsection{Физический смысл}
+\label{sub:Физический смысл}
+Если \(f(x, y, z) > 0\) в области \(T\), то \(\iiint\limits_{T} f(x, y, z)\) представляет собой массу тела, занимающего объем \(T\) и имеющего переменную плотность \(\gamma = f(x, y, z)\).
+
+\subsection{Тройной интеграл в декартовых координатах}
+\label{sub:Тройной интеграл в декартовых координатах}
+
+\begin{equation}
+    \begin{gathered}
+        \lets T: x \in [x_1, x_2], y \in [y_1(x), y_2(x)], z \in [z1(x, y), z_2(x, y)]: y_1, y_2, z_1, z_2 \in C \\
+        \Downarrow \\
+        \iiint\limits_{T} f(x, y, z) dV = \int\limits_{x_1}^{x_2} dx \int\limits_{y_1(x)}{y_2(x)} dy \int\limits_{z_1(x, y)}^{z_2(x, y)} f(x, y, z) dz.
+    \end{gathered}
+\end{equation}
+
+% TODO: подправить определение
+Если при вычислении тройного интеграла выполняется переход от \(x, y, z\) к \(u, v, w\), причем \(x = x(u, v, w)\), \(y = y(u, v, w)\), \(z = z(u, v, w)\), где функции \(x, y, z \in C^1\), то:
+\begin{equation}
+    J =
+    \begin{vmatrix}
+        \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w} \\
+        \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w} \\
+        \frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w}
+    \end{vmatrix}
+    \neq 0
+\end{equation}
+
+\begin{equation}
+    \iiint\limits_{T} f(x, y, z)dxdyz = \iiint\limits_{T'} f \big[ x(u, v, w), y(\cdot), z(\cdot) \big] \cdot |J| dudvdw.
+\end{equation}
+
+\subsection{Цилиндрические координаты}
+\label{sub:Цилиндрические координаты}
+
+\begin{equation}
+    \begin{gathered}
+        x, y, z \to \rho, \varphi, z : x = \rho\cos\varphi, y = \rho\sin\varphi, z = z \\
+        (\rho \in [0, +\infty], \varphi \in [0, 2\pi], z \in [-\infty, +\infty]). \\
+        \iiint\limits_{T} f(x, y, z)dxdydz = \int\limits_{\varphi_1}^{\varphi_2} d\varphi \int\limits_{\rho_1}^{\rho_2} \rho d\rho \int f(\rho \cos \varphi, \rho \sin \varphi, z) dz
+    \end{gathered}
+\end{equation}
+
+\subsection{Сферические координаты}
+\label{sub:Сферические координаты}
+
+\begin{equation}
+    \begin{gathered}
+        x, y, z \to \rho, \varphi, \theta : x = \rho \sin \theta \cos \varphi, y = \rho \sin \theta \sin \varphi, z = \rho \cos \theta \\
+        (\rho in [0, +\infty], \varphi \in [0, 2\pi], \theta \in [0, \pi]). \\
+        J = \rho^2 \sin \theta \\
+        \iiint\limits_{T} f(x, y, z) dxdydz = \int\limits_{\varphi_1}^{\varphi_2} d \varphi \int\limits_{\theta_1}^{\theta_2} \sin \theta \int\limits_{\rho_1}^{\rho_2}  f(\rho\sin{\theta\cos\varphi, \rho\sin\theta\sin\varphi,\rho\cos\theta}) d\rho
+    \end{gathered}
+\end{equation}
+
+
+\chapter{Двойные интегралы}%
+\label{cha:Двойные интегралы}
+
+\section{Определение}%
+\label{sec:Определение}
+
+\(\lets f(x, y)\) определена в ограниченной замкнутой области \(D\) плоскости \(xOy\). Разобьем область \(D\) произвольным образом на \(n\) элементарных областей, с площадями \(\Delta S_1, \Delta S_2, \ldots, \Delta S_n\) и диаметрами \(d_1, d_2, \ldots, d_n\) (диаметр области — наиб. расстояние между двумя точками границы этой области). Выберем в каждой элементарной области произвольную точку \(P_i (x_i, y_i)\) и умножим значение функции \(f\) в точке \(P_i\) на площадь этой области.
+
+Интегральная сумма для \(f(x, y)\) по области \(D\):
+\begin{equation}
+    \sum_{i=1}^n f(x_i, y_i) \Delta S_i
+\end{equation}
+
+Если при \(\max{d_i} \to 0\) интегральная сумма имеет опред. конечный предел
+\begin{equation}
+    I = \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n f(x_i, y_i) \Delta S_i},
+\end{equation}
+независящий от способа разбиения \(D\) на эл. области и способа выбора \(P_i\), то этот предел называется двойным интегралом \(f(x, y)\) в области \(D\) и обозначается:
+\begin{equation}
+    \iint\limits_D f(x, y) dS = \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n f(x_i, y_i) \Delta S_i}
+\end{equation}
+
+Если \(f(x, y) > 0\), то двойной интеграл равен объему цилиндрического тела, ограниченного сверху поверхностью \(z = f(x, y)\) с образующими параллельными оси \(Oz\) и снизу областью \(D\), которая лежит в плоскости \(xOy\).
+
+\section{Свойства двойного интеграла}%
+\label{sec:Свойства двойного интеграла}
+
+\begin{property}
+    \begin{equation}
+        \iint\limits_D [f(x, y) \pm g(x, y)]dS = \iint\limits_D f(x, y)dS \pm \iint\limits_D g(x, y)dS
+    \end{equation}
+\end{property}
+
+\begin{proof}
+    \begin{equation}
+        \begin{gathered}
+            \iint\limits_D [f(x, y) \pm g(x, y)]dS =
+            \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n [f(x_i, y_i) \pm g(x_i, y_i)] \Delta S_i} = \\ =
+            \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n f(x_i, y_i) \Delta S_i} \pm
+            \lim_{\max{d_i} \to 0}{\sum_{i = 1}^n g(x_i, y_i) \Delta S_i} = \\ =
+            \iint\limits_{D} f(x, y) dS \pm \iint\limits_{D} g(x, y) dS.
+        \end{gathered}
+    \end{equation}
+\end{proof}
+
+\begin{property}
+    \begin{equation}
+        \iint\limits_D \lambda f(x, y)dS = \lambda \iint\limits_D f(x, y)dS, \qquad \lambda = const
+    \end{equation}
+\end{property}
+
+\begin{proof}
+    \begin{equation}
+        \iint\limits_{D} \lambda f(x, y) dS =
+        \lim_{\max_{d_i} \to 0} \sum_{i = 1}^n \lambda f(x_i, y_i) \Delta S_i =
+        \lambda \lim_{\max_{d_i} \to 0} \sum_{i = 1}^n f(x_i, y_i) \Delta S_i =
+        \lambda \iint\limits_{D} f(x, y) dS.
+    \end{equation}
+\end{proof}
+
+\begin{property}
+    Если \(D\) разбита на \(D_1\) и \(D_2\), то
+    \begin{equation}
+        \iint\limits_D f(x, y)dS = \iint\limits_{D_1} f(x, y)dS + \iint\limits_{D_2} f(x, y)dS
+    \end{equation}
+\end{property}
+
+\begin{proof}
+    Пусть \(D_1\) разбита на
+    \begin{equation}
+        D_{1,1}, D_{1,2}, \ldots, D_{1,n_1},
+    \end{equation}
+    а \(D_2\) разбита на
+    \begin{equation}
+        D_{2,1}, D_{2,2}, \ldots, D_{2,n_2}.
+    \end{equation}
+    Тогда объединение этих разбиений даст разбиение области \(D\):
+    \begin{equation}
+        D = \Big( \bigcup_{i_1 = 1}^{n_1} D_{1, i_1} \Big) \cup \Big( \bigcup_{i_2 = 1}^{n_2} D_{2, i_2} \Big)
+    \end{equation}
+    на \(n_1\) и \(n_2\) подобластей. Интегральная сумма \(D\) равна сумме по \(D_1\) и \(D_2\):
+    \begin{equation}
+        \sum_{i=1}^{n_1 + n_2} f(x_i, y_i) \Delta S_i = \sum_{i_1 = 1}^{n_1} f(x_{i_1}, y_{i_1}) \Delta S_{i_1} + \sum_{i_2 = 1}^{n_2} f(x_{i_2}, y_{i_2}) \Delta S_{i_2}.
+    \end{equation}
+    Перейдя к пределу при \(\max d_i \to 0\) получим требуемое неравенство.
+\end{proof}
+
+\begin{property}
+    Оценка двойного интеграла
+    \begin{equation}
+        m \leq f(x, y) \leq M \implies mS \leq \iint\limits_D f(x, y)dS \leq MS,
+    \end{equation}
+    где \(S\) — площадь области \(D\), а \(m\) и \(M\) — наиб. и наим. значения \(f(x, y)\) в области \(D\) соотв.
+\end{property}
+
+\begin{proof}
+    \begin{equation}
+        \begin{gathered}
+            m \leq f(x, y) \leq M
+            \implies
+            \sum_{i = 1}^n m \Delta S_i \leq \sum_{i = 1}^n f(x_i, y_i) \Delta S_i \leq \sum_{i = 1}^n M \Delta S_i.
+            \implies \\ \implies
+            m \sum_{i = 1}^n \Delta S_i \leq \sum_{i = 1}^n f(x_i, y_i) \Delta S_i \leq M \sum_{i = 1}^n \Delta S_i
+            \implies
+            mS \leq \iint\limits_{D} f(x, y) dS \leq MS.
+        \end{gathered}
+    \end{equation}
+\end{proof}
+
+\section{Правила вычисления двойного интеграла}%
+\label{sec:Правила вычисления двойного интеграла}
+
+\subsection{Способ 1}%
+\label{sub:Способ 1}
+
+Область интегрирования \(D\) ограничена слева и справа прямыми \(x = a\), \(x = b\), \(a < b\), а снизу и сверху — непрерывными кривыми \(y = \varphi_1(x)\) и \(y = \varphi_2(x)\), \(\varphi_1(x) \leq \varphi_2(x)\), каждая из которых пересекается вертикальной прямой только в одной точке:
+\begin{equation}
+    \iint\limits_D f(x, y)dxdy = \underbrace{\int\limits_a^b dx}_\text{повторный} \underbrace{\int\limits_{\varphi_1(x)}^{\varphi_2(x)} f(x, y)dy}_\text{внутренний},
+\end{equation}
+причем сначала вычисляется внутренний интеграл, в котором \(x = const\), а далее — повторный интеграл.
+
+\subsection{Способ 2}%
+\label{sub:Способ 2}
+
+Область интегрирования \(D\) ограничена снизу и сверху \(y = c\), \(y = d\), \(c < d\), а слева и справа — непрерывными кривыми \(x = \psi_1(y)\) и \(x = \psi_2(y)\), \(\psi_1(y) \leq \psi_2(y)\), каждая из которых пересекается горизонтальной прямой только в одной точке:
+\begin{equation}
+    \iint\limits_D = f(x, y)dxdy = \int\limits_c^d dy \int\limits_{\psi_1(y)}^{\psi_2(y)} f(x, y)dx
+\end{equation}
+
+\subsection{Алгоритм решения двойного интеграла}%
+\label{sub:Алгоритм решения двойного интеграла}
+
+\begin{enumerate}
+    \item {Построить чертеж для \(D\).}
+    \item {Расставить пределы интегрирования и перейти к повторным интегралам.}
+    \item {Вычислить внутренний интеграл.}
+    \item {Вычислить внешний интеграл и получить ответ.}
+\end{enumerate}
+
+
+\section{Криволинейные координаты}
+\label{sec:Криволинейные координаты}
+
+Пусть существует область \(D\) в трехмерном пространстве. Поставим в соответствие каждой точке \(M \in D\), имеющей координаты \((x, y, z)\), тройку чисел \((q_1, q_2, q_3)\) из некоторого множества \(Q\) таким образом, что т. \(M\) однозначно определяется тройкой чисел \((q_1, q_2, q_3)\). Значит, ее декартовы координаты \((x, y, z)\) являются функциями чисел:
+\begin{equation}
+    x = x(q_1, q_2, q_3),
+    \qquad
+    y = y(q_1, q_2, q_3),
+    \qquad
+    z = z(q_1, q_2, q_3).
+\end{equation}
+
+Учитывая, что
+\begin{equation}
+    \vv{r} = x \vv{i} + y \vv{j} + z \vv{k},
+\end{equation}
+
+три скалярные функции можно заменить одной векторной
+\begin{equation}
+    \vv{r} = \vv{r}(q_1, q_2, q_3).
+\end{equation}
+
+Будем считать, что \(\vv{r} \in C^1\) и \(J \neq 0\). Тогда существует отображение
+\begin{equation}
+    q_i = q_i(x, y, z), (i = 1, 2, 3).
+\end{equation}
+
+Числа \((q_1, q_2, q_3)\) — это \textbf{криволинейные координаты} т. \(M\), а ее отображения — \textbf{криволинейная система координат}.
+
+Если в отображении зафиксировать какие-либо две величины, например, \(q_2\) и \(q_3\), тогда оно будет определять множество точек, которое называется координатной \(q_1\)-линией. Аналогично получаются \(q_2\) и \(q_3\) линии.
+
+За положительное направление этих координатных линий принимается такое направление, вдоль которого соответствующая переменная возрастает. Очевидно, что через т. \(M\) можно провести 3 взаимно пересекающиеся координатные линии, которые в общем случае суть некоторые кривые.
+
+Пусть координаты \(q_2\) и \(q_3\) — фиксированы, т. е. \(q_2 = q_2^0\), \(q_3 = q_3^0\). Тогда отображение
+\begin{equation}
+    \vv{r} = \vv{r}(q_1, q_2^0, q_3^0)
+\end{equation}
+
+есть функция переменной \(q_1\), а ее производная \(\partial \vv{r} / \partial q_1\) в т. \(M\) — это касательный вектор \(\vv{r_1}\) к \(q_1\)-линии в этой точке. Таким образом
+\begin{equation}
+    \vv{r_j} = \frac{\partial \vv{r}}{\partial q_j}, (j = 1, 2, 3).
+\end{equation}
+
+Очевидно, что \(\vv{r_j}\) имеет компоненты
+\begin{equation}
+    \vv{r_j} =
+    \Big(
+    \frac{\partial x}{\partial q_j},
+    \frac{\partial y}{\partial q_j},
+    \frac{\partial z}{\partial q_j}
+    \Big).
+\end{equation}
+
+Система криволинейных координат называется \textbf{ортогональной}, если в любой точке векторы \(\vv{r_1}\), \(\vv{r_2}\), \(\vv{r_3}\) попарно ортогональны, то есть
+\begin{equation}
+    (\vv{r_i}, \vv{r_j}) = 0, i \neq j.
+\end{equation}
+
+Обозначим за \(H_i\) модуль вектора \(\vv{r_i}\), то есть
+\begin{equation}
+    H_i = |\vv{r_i}| =
+    \sqrt{
+        \Big( \frac{\partial x}{\partial q_i} \Big)^2 +
+        \Big( \frac{\partial y}{\partial q_i} \Big)^2 +
+        \Big( \frac{\partial z}{\partial q_i} \Big)^2
+    }.
+\end{equation}
+
+Числа \(H_i\) называются \textbf{метрическими коэффициентами} или \textbf{коэффициентами Ламэ}.
+
+Единичные орты осей определяются равенствами
+\begin{equation}
+    \vv{e_i} = \frac{\vv{r_i}}{H_i} = \frac{1}{H_i} \frac{\partial \vv{r}}{\partial q},
+    (i = 1, 2, 3).
+\end{equation}
+
+Выразим теперь элемент длины дуги, элемент криволинейной поверхности и элемент объема. Напомним, что в декартовых координатах квадрат элемента длины \(dl^2\) равен
+\begin{equation}
+    dl^2 = dx^2 + dy^2 + dz^2.
+\end{equation}
+
+Так как
+\begin{equation}
+    \begin{gathered}
+        dx = \frac{\partial x}{\partial q_1} dq_1 + \frac{\partial x}{\partial q_2} dq_2 + \frac{\partial x}{\partial q_3} dq_3, \\
+        dy = \frac{\partial y}{\partial q_1} dq_1 + \frac{\partial y}{\partial q_2} dq_2 + \frac{\partial y}{\partial q_3} dq_3, \\
+        dz = \frac{\partial z}{\partial q_1} dq_1 + \frac{\partial z}{\partial q_2} dq_2 + \frac{\partial z}{\partial q_3} dq_3,
+    \end{gathered}
+\end{equation}
+
+Квадрат элемента длины равен
+\begin{equation}
+    dl^2 = H_1^2 dq_1^2 + H_2^2 dq_2^2 + H_3^2 dq_3^3.
+\end{equation}
+
+Значит элемент длины дуги координатной линии равен
+\begin{equation}
+    dl_i = H_i dq_i.
+\end{equation}
+
+Из этого следует, что элемент криволинейной поверхности \(d\sigma_{ij}\), образованный \(i\)-й и \(j\)- координатной линией, и элемент объема \(dV\) равны
+\begin{equation}
+    d\sigma_{ij} = H_i H_j dq_i dq_j,
+    \qquad
+    dV = H_1 H_2 H_3 dq_1 dq_2 dq_3.
+\end{equation}
+
+\section{Общий случай замены переменных в двойном интеграле}
+\label{sec:Общий случай замены переменных в двойном интеграле}
+
+Пусть функции \(x = \varphi_1(u, v)\) и \(y = \varphi_2(u, v)\) осуществляют взаимно-однозначное непрерывно дифференцируемое отображение области \(D'\) плоскости \(uO'v\) на область \(D\) плоскости \(xOy\). Тогда существует обратное непрерывно дифференцируемое отображение \(u = \eta_1(x, y)\) и \(v = \eta_2(x, y)\) области \(D\) на область \(D'\), где определитель преобразования, называемый \textit{якобианом}, в области \(D'\) не равен нулю:
+\begin{equation}
+    J =
+    \begin{vmatrix}
+        \dfrac{\strut \partial \varphi_1}{\strut \partial u} & \dfrac{\strut \partial \varphi_1}{\strut \partial v} \\
+        \dfrac{\strut \partial \varphi_2}{\strut \partial u} & \dfrac{\strut \partial \varphi_2}{\strut \partial v}
+    \end{vmatrix}
+    \neq 0.
+\end{equation}
+Тогда справедлива формула:
+\begin{equation}
+    \iint\limits_{D} f(x, y) dxdy = \iint\limits_{D'} f [\varphi_1(u, v), \varphi_2(u, v)] |J|dudv.
+\end{equation}
+
+Рассмотрим пример с полярными координатами, где
+\begin{equation}
+    x = \varphi_1(\rho, \theta) = \rho \cos \theta,
+    \qquad
+    y = \varphi_2(\rho, \theta) = \rho \sin \theta.
+\end{equation}
+
+Якобиан равен
+\begin{equation}
+    J =
+    \begin{vmatrix}
+        \dfrac{\strut \partial \varphi_1}{\strut \partial \rho} & \dfrac{\strut \partial \varphi_1}{\strut \partial \theta} \\
+        \dfrac{\strut \partial \varphi_2}{\strut \partial \rho} & \dfrac{\strut \partial \varphi_2}{\strut \partial \theta}
+    \end{vmatrix}
+    =
+    \begin{vmatrix}
+        \cos \theta & -\rho \sin \theta \\
+        \sin \theta & \rho \cos \theta
+    \end{vmatrix}
+    = \rho \cos^2 \theta + \rho \sin^2 \theta = \rho.
+\end{equation}
+
+Тогда двойной интеграл равен
+\begin{equation}
+    \iint\limits_{D} f(x, y)dxdy = \iint\limits_{D'} f(\rho \cos \theta, \rho \sin \theta) \rho d\rho d\theta.
+\end{equation}
+
+
 
 \end{document}
